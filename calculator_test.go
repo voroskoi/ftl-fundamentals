@@ -5,12 +5,24 @@ import (
 	"testing"
 )
 
+var testCasesAdd = []struct {
+	desc string
+	a    float64
+	b    float64
+	want float64
+}{
+	{"simple", 2, 2, 4},
+	{"add half", 2, 1.5, 3.5},
+	{"add negative", 2, -3, -1},
+}
+
 func TestAdd(t *testing.T) {
 	t.Parallel()
-	var want float64 = 4
-	got := calculator.Add(2, 2)
-	if want != got {
-		t.Errorf("want %f, got %f", want, got)
+	for _, tc := range testCasesAdd {
+		got := calculator.Add(tc.a, tc.b)
+		if tc.want != got {
+			t.Errorf("%s: want %f, got %f", tc.desc, tc.want, got)
+		}
 	}
 }
 
