@@ -2,7 +2,9 @@ package calculator_test
 
 import (
 	"calculator"
+	"math/rand"
 	"testing"
+	"time"
 )
 
 var testCasesAdd = []struct {
@@ -64,6 +66,20 @@ func TestMultiply(t *testing.T) {
 		got := calculator.Multiply(tc.a, tc.b)
 		if tc.want != got {
 			t.Errorf("%s: want %f, got %f", tc.desc, tc.want, got)
+		}
+	}
+}
+
+func TestMultiplyRand(t *testing.T) {
+	t.Parallel()
+	rand.Seed(time.Now().UnixNano())
+	for i := 0; i < 100; i++ {
+		a := rand.Float64() * 10
+		b := rand.Float64() * 10
+		want := a * b
+		got := calculator.Multiply(a, b)
+		if want != got {
+			t.Errorf("Multipling a: %f with b: %f failed. Want: %f, got: %f", a, b, want, got)
 		}
 	}
 }
