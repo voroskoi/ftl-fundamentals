@@ -4,6 +4,8 @@ package calculator
 import (
 	"fmt"
 	"math"
+	"strconv"
+	"strings"
 )
 
 // Add adds all the other numbers to the first.
@@ -49,4 +51,36 @@ func Sqrt(a float64) (float64, error) {
 		return 0, fmt.Errorf("input have to be positive")
 	}
 	return math.Sqrt(a), nil
+}
+
+// StringHandler receives a string and calls Add, Subtract, Multiply or Divide based on its content.
+func StringHandler(input string) (ret float64, err error) {
+	operator := strings.IndexAny(input, "+-*/")
+	if operator == -1 {
+		return 0, fmt.Errorf("unrecognized operation")
+	}
+	elements := strings.Split(input, string(input[operator]))
+	if len(elements) != 2 {
+		return 0, fmt.Errorf("not two parts")
+	}
+	a, err := strconv.ParseFloat(strings.TrimSpace(elements[0]), 64)
+	if err != nil {
+		return 0, fmt.Errorf("a: failed parsing float64")
+	}
+	b, err := strconv.ParseFloat(strings.TrimSpace(elements[1]), 64)
+	if err != nil {
+		return 0, fmt.Errorf("b: failed parsing float64")
+	}
+	switch string(input[operator]) {
+	case "+":
+		return Add(a, b), nil
+	case "-":
+		return Subtract(a, b), nil
+	case "*":
+		return Multiply(a, b), nil
+	case "/":
+		ret, err = Divide(a, b)
+		return ret, err
+	}
+	return 0, fmt.Errorf("failed to decide which function to call")
 }

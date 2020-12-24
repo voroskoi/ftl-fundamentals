@@ -152,3 +152,34 @@ func TestSqrt(t *testing.T) {
 		}
 	}
 }
+
+var testStringHandler = []struct {
+	desc  string
+	input string
+	want  float64
+	err   bool
+}{
+	{"addition, no space", "2+2", 4, false},
+	{"addition, with space", "6 + 2", 8, false},
+	{"subtract, negative", "20-32", -12, false},
+	{"multiple, float", "3.5 * 2", 7, false},
+	{"divide with zero", "88/0", 0, true},
+}
+
+func TestStringHandler(t *testing.T) {
+	for _, tc := range testStringHandler {
+		got, err := calculator.StringHandler(tc.input)
+		if err != nil {
+			if tc.err != true {
+				t.Error("unexpected error returned", err)
+			}
+		} else {
+			if tc.err == true {
+				t.Error("no error reported when expected one")
+			}
+		}
+		if tc.want != got {
+			t.Errorf("%s: want %f, got %f", tc.desc, tc.want, got)
+		}
+	}
+}
