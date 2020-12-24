@@ -1,7 +1,10 @@
 // Package calculator provides a library for simple calculations in Go.
 package calculator
 
-import "fmt"
+import (
+	"fmt"
+	"math"
+)
 
 // Add takes two numbers and returns the result of adding them together.
 func Add(a, b float64) float64 {
@@ -26,4 +29,13 @@ func Divide(a, b float64) (float64, error) {
 		return 0, fmt.Errorf("divide by 0 is not allowed")
 	}
 	return a / b, nil
+}
+
+// Sqrt takes a number and returns with the square root of it.
+// If the base is negative, gives an error.
+func Sqrt(a float64) (float64, error) {
+	if a < 0 {
+		return 0, fmt.Errorf("input have to be positive")
+	}
+	return math.Sqrt(a), nil
 }

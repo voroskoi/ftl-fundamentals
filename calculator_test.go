@@ -116,3 +116,34 @@ func TestDivide(t *testing.T) {
 		}
 	}
 }
+
+var testCasesSqrt = []struct {
+	desc string
+	a    float64
+	want float64
+	err  bool
+}{
+	{"sqrt simple", 4, 2, false},
+	{"sqrt half", 0.25, 0.5, false},
+	{"sqrt negative", -6, 0, true},
+	{"sqrt a zero", 0, 0, false},
+}
+
+func TestSqrt(t *testing.T) {
+	t.Parallel()
+	for _, tc := range testCasesSqrt {
+		got, err := calculator.Sqrt(tc.a)
+		if err != nil {
+			if tc.err != true {
+				t.Error("no error reported when expected one")
+			}
+		} else {
+			if tc.err == true {
+				t.Error("unexpected error returned")
+			}
+		}
+		if tc.want != got {
+			t.Errorf("%s: want %f, got %f", tc.desc, tc.want, got)
+		}
+	}
+}
