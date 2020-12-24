@@ -67,3 +67,36 @@ func TestMultiply(t *testing.T) {
 		}
 	}
 }
+
+var testCasesDivide = []struct {
+	desc string
+	a    float64
+	b    float64
+	want float64
+	err  bool
+}{
+	{"divide simple", 4, 2, 2, false},
+	{"divide half", 3.5, 1.75, 2, false},
+	{"divide negative", -6, -3, 2, false},
+	{"divide a zero", 0, 5, 0, false},
+	{"divide by zero", 3, 0, 0, true},
+}
+
+func TestDivide(t *testing.T) {
+	t.Parallel()
+	for _, tc := range testCasesDivide {
+		got, err := calculator.Divide(tc.a, tc.b)
+		if err != nil {
+			if tc.err != true {
+				t.Error("no error reported when expected one")
+			}
+		} else {
+			if tc.err == true {
+				t.Error("unexpected error returned")
+			}
+		}
+		if tc.want != got {
+			t.Errorf("%s: want %f, got %f", tc.desc, tc.want, got)
+		}
+	}
+}
