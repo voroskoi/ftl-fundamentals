@@ -11,7 +11,7 @@ var testCasesAdd = []struct {
 	b    float64
 	want float64
 }{
-	{"simple", 2, 2, 4},
+	{"add simple", 2, 2, 4},
 	{"add half", 2, 1.5, 3.5},
 	{"add negative", 2, -3, -1},
 }
@@ -32,9 +32,9 @@ var testCasesSubtract = []struct {
 	b    float64
 	want float64
 }{
-	{"simple", 4, 2, 2},
-	{"add half", 2, 1.5, 0.5},
-	{"add negative", 2, -3, 5},
+	{"subtract simple", 4, 2, 2},
+	{"subtract half", 2, 1.5, 0.5},
+	{"subtract negative", 2, -3, 5},
 }
 
 func TestSubtract(t *testing.T) {
