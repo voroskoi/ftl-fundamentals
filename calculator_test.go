@@ -47,11 +47,23 @@ func TestSubtract(t *testing.T) {
 	}
 }
 
+var testCasesMultiply = []struct {
+	desc string
+	a    float64
+	b    float64
+	want float64
+}{
+	{"multiply simple", 4, 2, 8},
+	{"multiply half", 2, 1.75, 3.5},
+	{"multiply negative", 2, -3, -6},
+}
+
 func TestMultiply(t *testing.T) {
 	t.Parallel()
-	var want float64 = 36
-	got := calculator.Multiply(6, 6)
-	if want != got {
-		t.Errorf("want %f, got %f", want, got)
+	for _, tc := range testCasesMultiply {
+		got := calculator.Multiply(tc.a, tc.b)
+		if tc.want != got {
+			t.Errorf("%s: want %f, got %f", tc.desc, tc.want, got)
+		}
 	}
 }
